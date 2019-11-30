@@ -1,4 +1,11 @@
 require 'bundler/setup'
+require 'simplecov'
+require 'simplecov-console'
+
+SimpleCov.start do
+  add_filter '/spec/'
+  formatter SimpleCov::Formatter::Console
+end
 
 RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
