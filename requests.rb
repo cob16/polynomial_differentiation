@@ -1,29 +1,35 @@
 require 'sinatra'
 require 'json'
 
-require_relative 'lib/polynomial'
+require_relative 'lib/parse_equation'
+require_relative 'lib/render_polynomial'
+require_relative 'lib/simplify_polynomial'
 
 get '/differentiate/*' do
   content_type :json
 
   begin
-    input = parse_input params['splat']
-  rescue ArgumentError
+    input = ParseEquation.new(input_args).execute
+  rescue StandardError => e
+    pp e
     return client_error
   end
 
-  polynomial = Polynomial.new(input)
-  generate_response(rendered_input: polynomial.render_input)
+  answer = SimplifyPolynomial.new(polynomial_sections: input).execute
+  generate_response(
+    input: RenderPolynomial.new(polynomial_sections: input).execute,
+    output: RenderPolynomial.new(polynomial_sections: answer, prime: true).execute
+  )
 end
 
-def parse_input(args)
-    args.first.split('/').map { |str| Integer(str).to_i }
+def input_args
+  params['splat'].first
 end
 
 def client_error
   [400, {}.to_json]
 end
 
-def generate_response(rendered_input:)
-  [200, {rendered_input: rendered_input, answer: 'Mock answer' }.to_json]
+def generate_response(input:, output:)
+  [200, { rendered_input: input, answer: output }.to_json]
 end

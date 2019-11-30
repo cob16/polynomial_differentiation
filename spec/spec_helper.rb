@@ -1,4 +1,4 @@
-require "bundler/setup"
+require 'bundler/setup'
 
 RSpec.configure do |config|
   # Disable RSpec exposing methods globally on `Module` and `main`
@@ -7,4 +7,8 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+end
+
+def json_output
+  JSON.parse(last_response.body, symbolize_names: true)
 end
