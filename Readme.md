@@ -1,4 +1,4 @@
-# Differentiation of polynomials Code exercise
+# Differentiation of polynomials - A code exercise
 
 A web service in ruby that can do mathematical differentiation of polynomials
 
