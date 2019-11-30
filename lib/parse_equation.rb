@@ -12,12 +12,11 @@ class ParseEquation
     equation_sections = []
     sections = separate_input
     sections.each_with_index do |number, index|
-      equation_sections << if !first_element?(index) && last_element?(index, sections.length)
-                             # return constant
-                             PolynomialConstant.new(number)
-                           else
-                             create_equation_section(coefficient: number)
-                           end
+      if !first_element?(index) && last_element?(index, sections.length)
+        equation_sections << PolynomialConstant.new(number)
+      else
+        equation_sections << create_equation_section(coefficient: number)
+      end
     end
     equation_sections
   end
