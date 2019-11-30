@@ -22,13 +22,12 @@ class PolynomialPart
   def simplify
     return nil if coefficient.zero? || exponent.zero?
 
-    new_part = if exponent == 1
-                 # special case for power_rule
-                 self.class.new(coefficient: coefficient, exponent: exponent, showx: false)
-               else
-                 apply_power_rule
-               end
-    new_part
+    if exponent == 1
+      # special case for power_rule
+      self.class.new(coefficient: coefficient, exponent: exponent, showx: false)
+    else
+      apply_power_rule
+    end
   end
 
   private
